@@ -1,0 +1,19 @@
+{
+    "Name": "GroupMe",
+    "version": "1.0.0",
+    "description": "Final project: Group project verification",
+    "main": "app.js",
+    "scripts": {
+        "start": "npm install && node app"
+    },
+    "author": "Matthew G. & Micheal Jeandron",
+    "dependencies": {
+        "ejs": "*",
+        "express": "*",
+        "mongoose": "^6.3.3",
+        "shortid": "^2.2.16",
+        "express-session":"*",
+        "passport":"*",
+        "passport-local":"*"
+    }
+}
