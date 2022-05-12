@@ -8,6 +8,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const userRoutes = require('./routes/user-routes'); //import user-routes module
 const session = require('express-session');
+const passport = require('./middleware/passport');
 
 //Initial setup of app on initialization
 function setupApp(){
@@ -16,6 +17,9 @@ app.use(bodyParser.urlencoded({extended:false}));
 //Session config
 const sessionConfig = { secret:'Gafilta-Fish', resave:false, saveUninitialized:true}; 
 app.use(session(sessionConfig));
+//Set up passport
+app.use(passport.initialize());
+app.use(passport.session());
 //set up database
 const mongoose_config = {useNewUrlParser: true, useUnifiedTopology: true};
 const connection = mongoose.connect(database, mongoose_config);

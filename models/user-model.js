@@ -1,12 +1,15 @@
-const shortid = require('shortid'); 
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-class User{
- constructor(){
- }
- add (name ,email ,password){
- const id = shortid.generate();
- const user = {id:id ,name:name, email:email ,password:password};
- console.log(this.users);
- }
-}
-module.exports = new User(); 
+const userSchema = new Schema({
+    name: {type:String,
+            required:true},
+    email: {type:String,
+        required:true},
+    password:{type:String,
+        required:true},
+    projects:[Number]
+},
+{collection:'Users'});
+
+const User =  module.exports = mongoose.model('User',userSchema);

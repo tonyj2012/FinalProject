@@ -14,6 +14,7 @@
         "shortid": "^2.2.16",
         "express-session":"*",
         "passport":"*",
-        "passport-local":"*"
+        "passport-local":"*",
+        "bcrypt":"*"
     }
 }
