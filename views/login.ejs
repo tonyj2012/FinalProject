@@ -16,6 +16,9 @@
                 <i class="bi bi-check-circle-fill"></i> Sign-in
             </h1>
             <hr>
+            <% if (messages.error) { %>
+                <%= messages.error %>
+               <% } %>                
             <form action="/login" method="POST">
                 <div class="form-group mb-3">
                     <label>Email:</label>
@@ -27,6 +30,7 @@
                 </div>
                 <button class="btn btn-primary float-end" type="submit"> login </button>
             </form>
+            <!--TO-DO: Add Register if you already have an account-->
         </div>
             <!-- Bootstrap Bundle with Popper -->
             <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

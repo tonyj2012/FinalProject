@@ -8,13 +8,14 @@
     },
     "author": "Matthew G. & Micheal Jeandron",
     "dependencies": {
+        "bcrypt": "*",
         "ejs": "*",
         "express": "*",
+        "express-session": "*",
         "mongoose": "^6.3.3",
+        "passport": "*",
+        "passport-local": "*",
         "shortid": "^2.2.16",
-        "express-session":"*",
-        "passport":"*",
-        "passport-local":"*",
-        "bcrypt":"*"
+        "express-flash":"*"
     }
 }
