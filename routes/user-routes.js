@@ -12,6 +12,14 @@ router.get('/login',checkNotAuthenticated,getLogin);
 router.get('/register',checkNotAuthenticated,getRegister);
 router.post('/register',checkNotAuthenticated,postRegister);
 router.post('/login',checkNotAuthenticated,postLogin);
+router.post('/logout',checkAuthenticated,postLogout)
+
+
+async function postLogout(request,response){
+    request.logOut();
+    response.redirect('/login');
+}
+
 
 async function getProjects(request,response){
     response.render('projects.ejs', {name:request.user.name});
