@@ -22,7 +22,16 @@ async function postLogout(request,response){
 
 
 async function getProjects(request,response){
-    response.render('projects.ejs', {name:request.user.name});
+    console.log(request.user.email)
+    try{
+    let test = await User.findOne({email:request.user.email});
+    console.log(test.projects.length)
+    var projects = test.projects;
+    response.render('projects.ejs', {name:request.user.name,projects});
+   }
+   catch(err){
+    console.log(err.message)
+   }
 }
 
 async function postLogin(request,response,next){

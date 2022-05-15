@@ -1,10 +1,8 @@
-const getProj=require("./getProjects.js");
-const userProjects=[];
+
 //get collection of projects user is working on
-async function wrap(){
-    userProjects= await getProj.main().catch(console.error);
-}
-wrap();
+function sendProjects(userProjects){
+    console.log('here')
+    console.log(userProjects)
 const n=userProjects.length;
 let indicatorsText=
             `<!-- Carousel Menu -->
@@ -51,3 +49,4 @@ else{
 }
 
 document.getElementById("blog-carousel").innerHTML=fullText;
+}
