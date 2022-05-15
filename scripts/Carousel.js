@@ -1,4 +1,10 @@
-const userProjects=[];//get collection of projects user is working on
+const getProj=require("./getProjects.js");
+const userProjects=[];
+//get collection of projects user is working on
+async function wrap(){
+    userProjects= await getProj.main().catch(console.error);
+}
+wrap();
 const n=userProjects.length;
 let indicatorsText=
             `<!-- Carousel Menu -->
