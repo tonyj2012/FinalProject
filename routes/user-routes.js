@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router(); //Create router object
 const User = require("../models/user-model");
+const Project = require('../models/Project-model');
 const bcrypt = require("bcrypt");
 const passport = require('../middleware/passport');
 const req = require('express/lib/request');
@@ -10,23 +11,48 @@ const { checkAuthenticated,checkNotAuthenticated } = require('../middleware/auth
 router.get('/',checkAuthenticated,getProjects);
 router.get('/login',checkNotAuthenticated,getLogin);
 router.get('/register',checkNotAuthenticated,getRegister);
+router.get('/project',checkAuthenticated,getSingleProject)
+router.get('/createproject',checkAuthenticated,getCreateProject)
 router.post('/register',checkNotAuthenticated,postRegister);
 router.post('/login',checkNotAuthenticated,postLogin);
-router.post('/logout',checkAuthenticated,postLogout)
+router.post('/logout',checkAuthenticated,postLogout);
+router.post('/project',checkAuthenticated, postSingleProject)
 
+async function getCreateProject(request,response){
+    response.render('createProject.ejs');
+    
+}
 
 async function postLogout(request,response){
     request.logOut();
     response.redirect('/login');
 }
 
+async function getSingleProject(request,response){
+    response.render('pTasks.ejs')
+}
+
+async function postSingleProject(request,response){
+   try{
+    const{pName,description}=request.body;
+    const newProject = new Project({projectName:pName,projectDescription:description,manager:request.user.email});
+    await newProject.save();
+    console.log();
+    await User.updateOne({email:request.user.email},{$push:{projects:[newProject.ProjectId]}});
+    const document = newProject;
+    const json = {state:true,msg:"data inserted", document:document}
+    console.log(json);
+    response.redirect('/');
+   }
+   catch(err){
+       console.log(err.message);
+   }
+}
 
 async function getProjects(request,response){
-    console.log(request.user.email)
     try{
     let test = await User.findOne({email:request.user.email});
-    console.log(test.projects.length)
-    var projects = test.projects;
+    var projects = JSON.stringify(test.projects);
     response.render('projects.ejs', {name:request.user.name,projects});
    }
    catch(err){
@@ -64,7 +90,7 @@ try{
         throw new Error('User already Exists!')
     }
     const hashpassword = await bcrypt.hash(password, 10);
-    const newUser = new User({name:name,email:email,password:hashpassword});
+    const newUser = new User({name:name,email:email.toLowerCase(),password:hashpassword});
     await newUser.save();
     const document = newUser;
     const json = {state:true,msg:"data inserted", document:document}

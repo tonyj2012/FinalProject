@@ -6,14 +6,14 @@ const bcrypt = require('bcrypt');
 
 async function authenticateUser(email,password,done){
     //<to-do> check if Password matches email in database
-    const test = await user.findOne({email:email})
+    const test = await user.findOne({email:email.toLowerCase()})
     if(!test)
     {
         console.log('User does not exist')
         return done(null, false,{message:'User does not exist!'});
     }
     if(await bcrypt.compare(password, test.password)){
-        console.log('Authentification varified');
+        console.log('Authentication varified');
         return done(null,test);
     }
     else{
