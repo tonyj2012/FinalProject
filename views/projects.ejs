@@ -11,6 +11,16 @@
         
     </head>
     <body onload="sendProjects()" class="bg-dark text-light">
+        <!-- Nav bar-->
+        <nav class="navbar navbar-light bg-secondary container-fluid">
+
+            <a class="navbar-brand text-light" href="/">
+                <i class="bi bi-house text-light"></i> Hi! <%= name %>
+            </a>
+            <form class="navbar-brand text-light" action="/logout" method="POST">
+                <button class="btn btn-outline-danger float-end" type="submit"> logout </button>
+            </form>
+        </nav>
         <!--Project page-->
         <div class="container mt-4">
             <h1>
@@ -18,10 +28,6 @@
             </h1>
             <hr>
         </div>
-        <h1>Hi! <%= name %></h1>
-        <form action="/logout" method="POST">
-            <button class="btn btn-primary float-end" type="submit"> logout </button>
-        </form>
         <form action="/createproject" method="GET">
             <button class="btn btn-primary float-end" type="submit"> Create a project </button>
         </form>
@@ -34,9 +40,10 @@
         <script>
             function sendProjects(){
     
-    var userProjects = <%- projects %>;
-    console.log(userProjects)
-    console.log(userProjects.length)
+    const userProjects = <%- projects %>;
+    const projectNames = <%- pNames %>;
+    const projectDesc = <%- pDesc %>;
+    
 const n=userProjects.length;
 let indicatorsText=
             `<!-- Carousel Menu -->
@@ -70,9 +77,11 @@ else{
                 <div id="slide-${i+1}" class="carousel-item active">
                     <img class="img-fluid" src="bg-image.jpeg">
                     <div class="carousel-caption">
-                        <h5> Project ${i+1} </h5>
-                        <p> Project ${i+1} description </p>
-                        <button onclick="document.location='tasks/project${i+1}.html'"> Start Work </button>
+                        <h5> ${projectNames[i]} </h5>
+                        <p> ${projectDesc[i]} </p>
+                        <form action="/project/containing/${userProjects[i]}" method="GET">
+                         <button class="btn btn-primary" type="submit"> Get Project </button>
+                        </form>
                     </div>
                 </div>`;}
         else{bodyText+=
@@ -80,9 +89,11 @@ else{
                 <div id="slide-${i+1}" class="carousel-item">
                     <img class="img-fluid" src="bg-image.jpeg">
                     <div class="carousel-caption">
-                        <h5> Project ${i+1} </h5>
-                        <p> Project ${i+1} description </p>
-                        <button onclick="document.location='tasks/project${i+1}.html'"> Start Work </button>
+                        <h5> ${projectNames[i]} </h5>
+                        <p> ${projectDesc[i]} </p>
+                        <form action="/project/containing/${userProjects[i]}" method="GET">
+                         <button class="btn btn-primary" type="submit"> Get Project </button>
+                        </form>
                     </div>
                 </div>`;}
     } 

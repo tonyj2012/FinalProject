@@ -1,0 +1,38 @@
+<html>
+    <head>
+        <link rel="icon" href="assets/favicon.png">
+        <title>Splash Screen</title>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        
+    </head>
+    <body class="bg-dark text-light">
+        <!--Navbar-->
+        <nav class="navbar navbar-light bg-secondary container-fluid">
+            <a class="navbar-brand text-light" href="/">
+                <i class="bi bi-house text-light"></i> Projects
+            </a>
+            <a class="navbar-brand text-light" href="/logout">
+                <button class="btn btn-outline-danger float-end" type="submit"> logout </button>
+            </a>
+        </nav>
+        <div class='container'>
+            <h3 class='display-1 mt-4'>Create a task for project</h3>
+            <hr>
+            <form action="/task/<%-projectId%>" method="POST">
+                <div class="form-group mb-3">
+                    <label>Due date:</label>
+                    <input class="form-control" type='date' id="dueDate" name='dueDate' placeholder="Due date (yyyy-mm-dd)">
+                </div>
+                <div class="form-group mb-3">
+                    <label>Task Description:</label>
+                    <input class="form-control"  id="description" name='description' placeholder="description">
+                </div>
+                <button class="btn btn-outline-success float-end" type="submit"> Add Task to project</button>
+            </form>
+        </div>
+    </body>
+</html>

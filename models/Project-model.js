@@ -4,9 +4,8 @@ const shortid = require('shortid');
 
 const projectSchema = new Schema({
     ProjectId: {type:String,
-            default:shortid.generate(),
             required:true},
-    tasks:[Number],
+    tasks:[String],
     projectName:{type:String,required:true},
     projectDescription:{type:String},
     manager:{type:String,required:true}

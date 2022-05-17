@@ -9,13 +9,15 @@
     "author": "Matthew G. & Micheal Jeandron",
     "dependencies": {
         "bcrypt": "*",
+        "bootstrap-icons": "^1.8.2",
         "ejs": "*",
         "express": "*",
+        "express-flash": "*",
         "express-session": "*",
+        "lodash": "^4.17.21",
         "mongoose": "^6.3.3",
         "passport": "*",
         "passport-local": "*",
-        "shortid": "^2.2.16",
-        "express-flash":"*"
+        "shortid": "^2.2.16"
     }
 }
