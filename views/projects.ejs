@@ -14,10 +14,10 @@
         <!-- Nav bar-->
         <nav class="navbar navbar-light bg-secondary container-fluid">
 
-            <a class="navbar-brand text-light" href="/">
-                <i class="bi bi-house text-light"></i> Hi! <%= name %>
+           <a class="navbar-brand text-light" href="/">
+                <i class="bi bi-house text-light"></i> Projects
             </a>
-            <form class="navbar-brand text-light" action="/logout" method="POST">
+            <form class="navbar-brand text-light" method="POST" action="/logout">
                 <button class="btn btn-outline-danger float-end" type="submit"> logout </button>
             </form>
         </nav>
@@ -28,12 +28,12 @@
             </h1>
             <hr>
         </div>
-        <form action="/createproject" method="GET">
-            <button class="btn btn-primary float-end" type="submit"> Create a project </button>
-        </form>
         <!--Carousel -->
         <div id="blog-carousel" class="carousel slide" data-ride="carousel">        
         </div>
+        <form action="/createproject" method="GET">
+            <button class="btn btn-primary float-end" type="submit"> Create a project </button>
+        </form>
 
 
         <!--Import sendprojects-->

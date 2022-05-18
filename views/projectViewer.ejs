@@ -31,26 +31,43 @@
         </div>
         <div id="card-group" class="card-group">
         </div>
+        <div class="container">
+        <div id='userAdder'></div>
+    </div>
             <!-- Bootstrap Bundle with Popper -->
             <script>
                 function buildTasks(){       
             const projectTasks = <%- tasks %>;
              const taskDesc = <%- tDesc %>;
              const taskDates = <%- tDates%>;
+             const pUser = <%- pUser%>;
              const n= projectTasks.length;
-            let taskBody= '';
-             for(let i=0; i<n; i++)
+             const manager = <%- manager %>;
+            var taskBody= '';
+             for(let i=0; i<n; i++){
             taskBody += `<div class="card bg-secondary border border-white" style="width: 18rem;">
                 <div class="card-body">
                 <h5 class="card-title text-center">${projectTasks[i]}</h5>
                 <p class="card-text">${taskDesc[i]}</p>
                 <div class="text-center">
-                    <a href="tasks/taskViewer1.ejs" class="btn btn-primary text-center">Go To Task</a>
+                    <form method="GET" action="/task/<%- projectId %>/${projectTasks[i]}">
+                    <button class="btn btn-primary text-center" type="submit"> Go to task!</button>
+                </form>
                 </div>
                 <div class="card-footer bg-transparent border-success">Due Date: ${taskDates[i]} </div>
                 </div>
             </div>`;
-
+        
+        }
+        if(pUser === manager){
+                let Ta=`<div class="text-center">
+                    <form method="POST" action="/Project/addUser/<%- projectId %>/">
+                        <input class="form-control"  id="addUser" name="addUser" placeholder="Add a User"></input>
+                    <button class="btn btn-primary text-center" type="submit"> Add user to Project</button>
+                </form>
+                </div>`
+                document.getElementById('userAdder').innerHTML=Ta;
+            }
             document.getElementById("card-group").innerHTML=taskBody;
                 }
             </script>

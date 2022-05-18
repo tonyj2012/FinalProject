@@ -5,7 +5,7 @@ const shortid = require('shortid');
 const taskSchema = new Schema({
     taskId: {type:String,
             required:true},
-            dueDate:{type:Date}, //yyyy-mm-dd
+    dueDate:{type:Date,required:true}, //yyyy-mm-dd
     aUsers:[String],
     taskDescription:{type:String,required:true},
     deliverable:{type:String},

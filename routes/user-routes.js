@@ -19,12 +19,64 @@ router.get('/register',checkNotAuthenticated,getRegister);
 router.get('/createproject',checkAuthenticated,getCreateProject);
 router.get('/createtask/:projectId',checkAuthenticated,getCreateTask);
 router.get('/project/containing/:projectId',checkAuthenticated,getSProject);
+router.get('/task/:projectId/:taskId',checkAuthenticated,getSingleTask)
 
 router.post('/register',checkNotAuthenticated,postRegister);
 router.post('/login',checkNotAuthenticated,postLogin);
 router.post('/logout',checkAuthenticated,postLogout);
 router.post('/project',checkAuthenticated, postSingleProject);
 router.post('/task/:projectId',checkAuthenticated,postSingleTask);
+router.post('/deliverable/:projectId/:taskId',checkAuthenticated,postDeliverable);
+router.post("/addUser/:projectId/:taskId",checkAuthenticated,postAddUserToTask);
+router.post("/Project/addUser/:projectId",checkAuthenticated,postAddUserToProject);
+
+async function postAddUserToProject(request,response){
+    try{
+    await User.updateOne({email:request.body.addUser},{$push:{projects:[request.params.projectId]}});
+    response.redirect(`/project/containing/${request.params.projectId}`);
+    }catch(err){
+        console.log(err.message);
+    }
+}
+
+async function postAddUserToTask(request,response){
+    try{
+    let tTask = await Task.find({taskId:request.params.taskId});
+    await Task.updateOne({taskId:request.params.taskId},{$push:{aUsers:[request.body.addUser]}});
+    response.redirect(`/task/${request.params.projectId}/${request.params.taskId}`);
+}catch(err)
+{console.log(err.message)
+}
+}
+
+async function postDeliverable(request,response){
+    let testDeliverable = request.body.deliverable;
+    console.log(testDeliverable);
+    let taskId = request.params.taskId;
+    let projectId = request.params.projectId;
+    let thisTask = await Task.findOne({taskId:taskId});
+    await Task.updateOne({taskId:taskId},{deliverable:request.body.deliverable});
+    response.redirect(`/task/${projectId}/${taskId}`);
+}
+
+async function getSingleTask(request,response){
+    try{
+    let projectId = request.params.projectId;
+    let taskId = request.params.taskId;
+    let test = await Task.findOne({taskId:taskId});
+    let tDesc = test.taskDescription;
+    let tDates = test.dueDate;
+    let deliverable = test.deliverable;
+    let manager = JSON.stringify(test.manager);
+    let tUser = JSON.stringify(request.user.email);
+    let adders = JSON.stringify(test.aUsers);
+    console.log(adders);
+    //Build maps to be iterated through by is
+    response.render('taskViewer.ejs',{taskId,tDates,tDesc,deliverable,projectId,manager,tUser,adders});
+    }catch(err){
+        console.log(err.message);
+    }
+}
 
 async function getCreateTask(request,response){
     let projectId = request.params.projectId;
@@ -36,7 +88,7 @@ async function postSingleTask(request,response){
     const{dueDate,description}=request.body;
     const owningProject = await Project.findOne({ProjectId:request.params.projectId});
     let hortid = shortid.generate()
-    const newTask = new Task({taskId:hortid,dueDate:dueDate,taskDescription:description,manager:request.user.email});
+    const newTask = new Task({taskId:hortid,dueDate:dueDate,taskDescription:description,manager:request.user.email,deliverable:'Deliverable goes here!'});
     await newTask.save();
     await Project.updateOne({ProjectId:request.params.projectId},{$push:{tasks:[newTask.taskId]}});
     response.redirect(`/project/containing/${request.params.projectId}`);
@@ -111,7 +163,9 @@ async function getSProject(request,response){
     tDates = JSON.stringify(dateMap);
     tDesc = JSON.stringify(descMap);
     tasks = JSON.stringify(tasks);
- response.render('projectViewer.ejs',{projectId,tDates,tDesc,tasks});
+    let manager = JSON.stringify(test.manager);
+    let pUser = JSON.stringify(request.user.email);
+ response.render('projectViewer.ejs',{projectId,tDates,tDesc,tasks,manager,pUser});
     }catch(err)
     {
         console.log(err.message);
